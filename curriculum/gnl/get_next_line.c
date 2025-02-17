@@ -6,13 +6,13 @@
 /*   By: ysaroyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:13:26 by ysaroyan          #+#    #+#             */
-/*   Updated: 2025/01/18 21:29:39 by ysaroyan         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:35:40 by ysaroyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*clear_storage(char *storage)
+static void	*clear_storage(char *storage)
 {
 	if (storage)
 		free(storage);
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 	static char	*storage;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > FOPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	storage = read_and_store(fd, storage);
 	if (!storage)

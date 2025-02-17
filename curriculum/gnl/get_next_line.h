@@ -6,15 +6,20 @@
 /*   By: ysaroyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:17:18 by ysaroyan          #+#    #+#             */
-/*   Updated: 2025/01/14 18:58:39 by ysaroyan         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:35:18 by ysaroyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 char	*get_next_line(int fd);
 char	*gnl_strchr(const char *s, int c);

@@ -6,12 +6,16 @@
 /*   By: ysaroyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:17:18 by ysaroyan          #+#    #+#             */
-/*   Updated: 2025/01/18 18:00:36 by ysaroyan         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:37:11 by ysaroyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
