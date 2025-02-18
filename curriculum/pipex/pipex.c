@@ -6,7 +6,7 @@
 /*   By: ysaroyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:21:23 by ysaroyan          #+#    #+#             */
-/*   Updated: 2025/02/17 15:52:57 by ysaroyan         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:35:59 by ysaroyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 static void	wait_for_children(int j, int argc, pid_t *pid)
 {
 	int	status;
+	int	k;
 
+	k = 0;
 	while (j < argc - 1)
-		waitpid(pid[j++], &status, 0);
+	{
+		waitpid(pid[k++], &status, 0);
+		++j;
+	}
 	free(pid);
 	if (WIFEXITED(status))
 		exit(WEXITSTATUS(status));
@@ -84,8 +89,8 @@ void	pipex(int argc, char **argv, char **envp)
 	init_indexes(&idx[0], &idx[0], argv);
 	while (idx[0] < argc - 1)
 	{
-		create_children(fd, &pid[idx[0]]);
-		if (pid[idx[0]] == 0)
+		create_children(fd, &pid[idx[0] - idx[1]]);
+		if (pid[idx[0] - idx[1]] == 0)
 		{
 			free(pid);
 			handle_redirection(prev_infile, idx[0] < argc - 2, fd[1], outfile);
