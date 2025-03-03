@@ -12,9 +12,9 @@
 
 #include "push_swap.h"
 
-int	count_len(char **splitted)
+int count_len(char **splitted)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (splitted[i])
@@ -22,19 +22,20 @@ int	count_len(char **splitted)
 	return (i);
 }
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	char	*arg;
-	char	**splitted_arg;
-	int		len;
-	t_stack	stack_a;
-	t_arr	*arr_struct;
+	char *arg;
+	char **splitted_arg;
+	int len;
+	t_stack *stack_a;
+	t_arr *arr_struct;
 
 	if (argc == 1)
 		print_error("Error");
 	validate_format(argc, argv);
 	arg = get_arg(argc, argv);
 	splitted_arg = ft_split(arg, ' ');
+	free(arg);
 	validate_duplication(splitted_arg);
 	len = count_len(splitted_arg);
 	if (len == 1)
@@ -44,14 +45,22 @@ int	main(int argc, char **argv)
 	}
 	arr_struct = create_array(splitted_arg);
 	if (!arr_struct)
+	{
+		free_splitted(splitted_arg);
 		return (0);
+	}
 	if (is_sorted(arr_struct))
 	{
-		free(arr_struct->arr);
-		free(arr_struct);
+		free_arr_struct(arr_struct);
 		return (0);
 	}
 	stack_a = create_stack(arr_struct);
-	sort(&stack_a);
+	if (!stack_a)
+	{
+		free_arr_struct(arr_struct);
+		return (0);
+		}
+		sort(stack_a);
+		free_stack(stack_a);
 	return (0);
 }

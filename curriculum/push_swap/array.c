@@ -46,12 +46,19 @@ t_arr	*create_array(char **splitted)
 		arr[i] = ft_atoi(splitted[i]);
 	arr_struct = malloc(sizeof(t_arr));
 	if (!arr_struct)
+	{
+		free(arr);
 		return (NULL);
+	}
 	arr_struct->length = size;
 	arr_struct->arr = arr;
 	arr_struct->sorted_arr = arr_dup(arr, size);
 	if (!arr_struct->sorted_arr)
+	{
+		free(arr);
+		free(arr_struct);
 		return (NULL);
+	}
 	bubble_sort(arr_struct);
 	free_splitted(splitted);
 	return (arr_struct);

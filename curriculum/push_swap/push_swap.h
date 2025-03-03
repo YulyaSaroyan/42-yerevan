@@ -38,6 +38,9 @@ typedef struct s_stack
 	t_node	*head;
 }	t_stack;
 
+int		generate_chunk(int size);
+void	free_arr_struct(t_arr *arr_struct);
+void	free_stack(t_stack *stack);
 void	find_max_and_push_b(t_node *lst, t_stack *stack_a);
 void	find_max_and_push_a(t_node *lst, t_stack *stack_b);
 t_stack	*init_stack(void);
@@ -46,7 +49,7 @@ void	do_and_print(t_stack *stack_a, void(*op)(t_stack *), char *operation);
 void	do_both_and_print(t_stack *stack_a, t_stack *stack_b,
 		void(*op)(t_stack *, t_stack *), char *operation);
 int		is_sorted(t_arr *arr_struct);
-t_stack	create_stack(t_arr *arr_struct);
+t_stack	*create_stack(t_arr *arr_struct);
 t_arr	*create_array(char **splitted);
 void	validate_format(int argc, char **argv);
 void	validate_duplication(char **splitted_arg);

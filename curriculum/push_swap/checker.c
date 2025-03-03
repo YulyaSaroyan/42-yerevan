@@ -81,7 +81,7 @@ int	is_sorted_and_empty(t_stack *stack_a, t_stack *stack_b)
 
 int	main(int argc, char **argv)
 {
-	t_stack	stack_a;
+	t_stack	*stack_a;
 	t_stack	*stack_b;
 	char	*arg;
 	char	**splitted_arg;
@@ -92,25 +92,32 @@ int	main(int argc, char **argv)
 	validate_format(argc, argv);
 	arg = get_arg(argc, argv);
 	splitted_arg = ft_split(arg, ' ');
+	free(arg);
 	validate_duplication(splitted_arg);
+	arr_struct = create_array(splitted_arg);
+	if (!arr_struct)
+	{
+		free_splitted(splitted_arg);
+		return (0);
+	}
+	stack_a = create_stack(arr_struct);
+	if (!stack_a)
+	{
+		free_arr_struct(arr_struct);
+		return (0);
+	}
 	stack_b = init_stack();
 	if (!stack_b)
 	{
-	//	free_stack(&stack_a);
-		print_error("Error");
-	}
-	arr_struct = create_array(splitted_arg);
-	if (!arr_struct)
+		free_stack(stack_a);
 		return (0);
-	stack_a = create_stack(arr_struct);
-	read_and_execute_instructions(&stack_a, stack_b);
-	
-
-	if (is_sorted_and_empty(&stack_a, stack_b))
+	}
+	read_and_execute_instructions(stack_a, stack_b);
+	if (is_sorted_and_empty(stack_a, stack_b))
 		print("OK");
 	else
 		print("KO");
-	//free_stack(&stack_a);
-	//free_stack(stack_b);
+	free_stack(stack_b);
+	free_stack(stack_a);
 	return (0);
 }

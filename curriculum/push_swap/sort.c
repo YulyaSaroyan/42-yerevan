@@ -20,7 +20,7 @@ static void	sort_stack_2(t_stack *stack_a)
 	top = stack_a->head->value;
 	bottom = stack_a->head->prev->value;
 	if (top > bottom)
-			do_and_print(stack_a, ra, "ra");
+		do_and_print(stack_a, ra, "ra");
 }
 
 static void	sort_stack_3(t_stack *stack_a)
@@ -50,24 +50,35 @@ static void	sort_stack_3(t_stack *stack_a)
 		do_and_print(stack_a, rra, "rra");
 }
 
-void	sort_stack_4(t_stack *stack_a)
+static void	sort_stack_4(t_stack *stack_a)
 {
 	t_stack	*stack_b;
 
 	stack_b = init_stack();
+	if (!stack_b)
+	{
+		free_stack(stack_a);
+		return ;
+	}
 	find_max_and_push_b(stack_a->head, stack_a);
 	do_both_and_print(stack_a, stack_b, pb, "pb");
 	sort_stack_3(stack_a);
 	do_both_and_print(stack_a, stack_b, pa, "pa");
 	do_and_print(stack_a, ra, "ra");
+	free_stack(stack_b);
 }
 
-void	sort_stack_5(t_stack *stack_a)
+static void	sort_stack_5(t_stack *stack_a)
 {
 	int	size;
 	t_stack	*stack_b;
 
 	stack_b = init_stack();
+	if (!stack_b)
+	{
+		free_stack(stack_a);
+		return ;
+	}
 	size = stack_a->size;
 	while (size--)
 	{
@@ -81,24 +92,7 @@ void	sort_stack_5(t_stack *stack_a)
 	do_both_and_print(stack_a, stack_b, pa, "pa");
 	if (stack_a->head->index > stack_a->head->next->index)
 		do_and_print(stack_a, sa, "sa");
-}
-
-int	generate_chunk(int size)
-{
-	int	chunk;
-
-	chunk = 1;
-	if (size < 50)
-		chunk = 3 + (size - 6) / 7;
-	else if (size >= 50 && size < 100)
-		chunk = 10 + (size - 50) / 8;
-	else if (size >= 100 && size < 350)
-		chunk = 18 + (size - 100) / 9;
-	else if (size >= 350 && size <= 500)
-		chunk = 27 + (size - 350) / 15;
-	else if (size > 500)
-		chunk = 37 + (size - 500) / 20;
-	return (chunk);
+	free_stack(stack_b);
 }
 
 void	make_butterfly(t_stack *stack_a, t_stack *stack_b, int chunk)
@@ -126,7 +120,7 @@ void	make_butterfly(t_stack *stack_a, t_stack *stack_b, int chunk)
 	}
 }
 
-void	sort_stack(t_stack *stack_a, t_stack *stack_b)
+static void	sort_stack_bigger(t_stack *stack_a, t_stack *stack_b)
 {
 	t_node	*lst;
 
@@ -138,15 +132,21 @@ void	sort_stack(t_stack *stack_a, t_stack *stack_b)
 	}
 }
 
-void	butterfly_algo(t_stack *stack_a)
+static void	sort_stack(t_stack *stack_a)
 {
 	int	chunk;
 	t_stack	*stack_b;
 
 	stack_b = init_stack();
+	if (!stack_b)
+	{
+		free_stack(stack_a);
+		return ;
+	}
 	chunk = generate_chunk(stack_a->size);
 	make_butterfly(stack_a, stack_b, chunk);
-	sort_stack(stack_a, stack_b);
+	sort_stack_bigger(stack_a, stack_b);
+	free_stack(stack_b);
 }
 
 void	sort(t_stack *stack_a)
@@ -160,5 +160,5 @@ void	sort(t_stack *stack_a)
 	else if (stack_a->size == 5)
 		sort_stack_5(stack_a);
 	else if (stack_a->size >= 6)
-		butterfly_algo(stack_a);
+		sort_stack(stack_a);
 }

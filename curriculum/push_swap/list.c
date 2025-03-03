@@ -79,20 +79,33 @@ static t_node	*create_list(t_arr *arr_struct)
 	int		i;
 
 	head = create_head(arr_struct);
+	if (!head)
+		return (NULL);
 	i = 0;
 	current = head;
 	while (++i < arr_struct->length)
+	{
 		current = create_node(arr_struct, current, head, arr_struct->arr[i]);
+		if (!current)
+			return (NULL);
+	}
 	return (head);
 }
 
-t_stack	create_stack(t_arr *arr_struct)
+t_stack	*create_stack(t_arr *arr_struct)
 {
-	t_stack	stack;
-	stack.head = create_list(arr_struct);
-	stack.size = list_size(stack.head);
-	free(arr_struct->sorted_arr);
-	free(arr_struct->arr);
-	free(arr_struct);
+	t_stack	*stack;
+
+	stack = init_stack();
+	if (!stack)
+		return (NULL);
+	stack->head = create_list(arr_struct);
+	if (!stack->head)
+	{
+		free(stack);
+		return (NULL);
+	}
+	stack->size = list_size(stack->head);
+	free_arr_struct(arr_struct);
 	return (stack);
 }

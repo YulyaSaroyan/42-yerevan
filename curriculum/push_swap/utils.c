@@ -30,6 +30,57 @@ t_stack	*init_stack(void)
 	return (stack);
 }
 
+void	free_arr_struct(t_arr *arr_struct)
+{
+	free(arr_struct->sorted_arr);
+	free(arr_struct->arr);
+	free(arr_struct);
+}
+
+int	generate_chunk(int size)
+{
+	int	chunk;
+
+	chunk = 1;
+	if (size < 50)
+		chunk = 3 + (size - 6) / 7;
+	else if (size >= 50 && size < 100)
+		chunk = 10 + (size - 50) / 8;
+	else if (size >= 100 && size < 350)
+		chunk = 18 + (size - 100) / 9;
+	else if (size >= 350 && size <= 500)
+		chunk = 27 + (size - 350) / 15;
+	else if (size > 500)
+		chunk = 37 + (size - 500) / 20;
+	return (chunk);
+}
+
+void free_list(t_node *head)
+{
+    if (!head) return;
+    t_node *current;
+    t_node *next;
+
+	current = head;
+	while (1)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+		if (current == head)
+			break ;
+	}
+}
+
+void free_stack(t_stack *stack)
+{
+    if (!stack)
+        return;
+    if (stack->head)
+        free_list(stack->head);
+    free(stack);
+}
+
 void	find_max_and_push_a(t_node *lst, t_stack *stack_b)
 {
 	int	i;

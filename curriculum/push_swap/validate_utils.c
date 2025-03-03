@@ -39,13 +39,19 @@ char	*get_arg(int argc, char **argv)
 	int		i;
 
 	i = 1;
-	arg = "";
+	arg = ft_strdup("");
 	while (i < argc)
 	{
 		if (i == 1)
+		{
 			temp_join = ft_strjoin(arg, "");
+			free(arg);
+		}
 		else
+		{
 			temp_join = ft_strjoin(arg, " ");
+			free(arg);
+		}
 		arg = ft_strjoin(temp_join, argv[i]);
 		free(temp_join);
 		++i;
